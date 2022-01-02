@@ -11,6 +11,7 @@ import {
 import { useCartState, useCartDispatch } from '../context/cart';
 import CartItem from '../components/CartItem/CartItem';
 import { commerce } from '../lib/commerce';
+import { minHeight } from '@mui/system';
 
 const Cart = () => {
   const styles = {
@@ -22,8 +23,6 @@ const Cart = () => {
     },
     subtitle: {
       marginTop: '3rem',
-      marginLeft: 'auto',
-      marginRight: 'auto',
       fontSize: '1.5rem'
     },
     cardDetails: {
@@ -63,18 +62,20 @@ const Cart = () => {
     }
   };
 
-  const cartState = useCartState();
+  const cart = useCartState();
 
-  const isEmpty = cartState.line_items.length === 0;
+  const isEmpty = cart.line_items.length === 0;
 
-  console.log(cartState);
+  console.log(cart);
 
   const EmptyCart = () => {
     return (
       <>
-        <Typography variant="subtitle1" sx={styles.subtitle}>
-          You have no items in your shopping cart.
-        </Typography>
+        <Box sx={{ minHeight: '60vh' }}>
+          <Typography variant="subtitle1" sx={styles.subtitle}>
+            You have no items in your shopping cart.
+          </Typography>
+        </Box>
       </>
     );
   };
@@ -83,7 +84,7 @@ const Cart = () => {
     return (
       <>
         <Grid container spacing={3} sx={styles.cardDetails}>
-          {cartState.line_items.map(item => (
+          {cart.line_items.map(item => (
             <Grid item key={item.id}>
               <CartItem item={item} />
             </Grid>
@@ -92,7 +93,7 @@ const Cart = () => {
         <hr />
         <Grid item sx={styles.checkout}>
           <Typography variant="h4" sx={styles.subtotal}>
-            Subtotal: {cartState.subtotal.formatted_with_symbol}
+            Subtotal: {cart.subtotal.formatted_with_symbol}
           </Typography>
           <Button
             size="large"
@@ -141,13 +142,13 @@ const Cart = () => {
       <Typography sx={styles.title} variant="h4" component="h2">
         Your Shopping Cart
       </Typography>
-      {!cartState.id && (
+      {!cart.id && (
         <Box style={{ fontWeight: 'bold', marginTop: '2rem' }}>
           <CircularProgress />
         </Box>
       )}
-      {cartState.id && !isEmpty && <FilledCart />}
-      {cartState.id && isEmpty && <EmptyCart />}
+      {cart.id && !isEmpty && <FilledCart />}
+      {cart.id && isEmpty && <EmptyCart />}
     </Container>
   );
 };

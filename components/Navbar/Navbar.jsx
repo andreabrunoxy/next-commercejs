@@ -4,7 +4,7 @@ import Link from 'next/link';
 import logo from '../../public/images/myshop.png';
 
 import { AppBar, Toolbar, Typography, Badge, IconButton } from '@mui/material';
-import { ShoppingCart } from '@mui/icons-material';
+import { ShoppingCart, AccountCircleRounded } from '@mui/icons-material';
 import { useCartState } from '../../context/cart';
 
 const Navbar = () => {
@@ -40,6 +40,11 @@ const Navbar = () => {
             <Typography sx={styles.title} variant="h6" color="inherit">
               My e-Shop
             </Typography>
+          </Link>
+          <Link href={'#'} passHref>
+            <IconButton aria-label="Show cart items" color="inherit">
+              <AccountCircleRounded />
+            </IconButton>
           </Link>
           <Link href={'/cart'} passHref>
             <IconButton aria-label="Show cart items" color="inherit">

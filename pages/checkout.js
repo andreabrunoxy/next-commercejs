@@ -26,6 +26,7 @@ const Checkout = () => {
     layout: {
       marginTop: '5%',
       width: { xs: '100%', sm: '80%', md: '50%' },
+      minHeight: '60vh',
       marginLeft: 'auto',
       marginRight: 'auto'
     },
@@ -43,13 +44,14 @@ const Checkout = () => {
       marginTop: '1rem'
     }
   };
-  const cart = useCartState();
 
   const [activeStep, setActiveStep] = useState(0);
   const [checkoutToken, setCheckoutToken] = useState(null);
   const [shippingData, setShippingData] = useState({});
   const [order, setOrder] = useState({});
   const [isFinished, setIsFinished] = useState(false);
+
+  const cart = useCartState();
 
   useEffect(() => {
     const generateToken = async () => {
