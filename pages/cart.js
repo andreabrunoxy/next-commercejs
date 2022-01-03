@@ -50,7 +50,8 @@ const Cart = () => {
     },
     button: {
       minWidth: '150px',
-      marginRight: '20px'
+      marginRight: '20px',
+      marginBottom: '10px'
     },
     checkout: {
       display: 'flex',
@@ -71,7 +72,7 @@ const Cart = () => {
   const EmptyCart = () => {
     return (
       <>
-        <Box sx={{ minHeight: '60vh' }}>
+        <Box sx={{ minHeight: '75vh' }}>
           <Typography variant="subtitle1" sx={styles.subtitle}>
             You have no items in your shopping cart.
           </Typography>

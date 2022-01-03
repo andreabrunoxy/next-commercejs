@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import {
   Paper,
   Stepper,
@@ -21,12 +22,12 @@ const steps = ['Shipping Address', 'Payment Details'];
 const Checkout = () => {
   const styles = {
     toolbar: {
-      marginTop: { xs: '20%', md: '10%' }
+      paddingTop: { xs: '20%', md: '5%' }
     },
     layout: {
       marginTop: '5%',
       width: { xs: '100%', sm: '80%', md: '50%' },
-      minHeight: '60vh',
+      minHeight: '75vh',
       marginLeft: 'auto',
       marginRight: 'auto'
     },
@@ -49,9 +50,11 @@ const Checkout = () => {
   const [checkoutToken, setCheckoutToken] = useState(null);
   const [shippingData, setShippingData] = useState({});
   const [order, setOrder] = useState({});
+  const [errorMessage, setErrorMessage] = useState('');
   const [isFinished, setIsFinished] = useState(false);
 
   const cart = useCartState();
+  const router = useRouter();
 
   useEffect(() => {
     const generateToken = async () => {
@@ -61,7 +64,9 @@ const Checkout = () => {
         });
         console.log(token);
         setCheckoutToken(token);
-      } catch (error) {}
+      } catch (error) {
+        router.push('/');
+      }
     };
     generateToken();
   }, [cart]);
@@ -84,7 +89,7 @@ const Checkout = () => {
       setOrder(incomingOrder);
       refreshCart();
     } catch (error) {
-      console.log(error);
+      setErrorMessage(error.data.error.message);
     }
   };
 
@@ -131,7 +136,7 @@ const Checkout = () => {
             ))}
           </Stepper>
           {activeStep === steps.length ? (
-            <Confirmation order={order} />
+            <Confirmation order={order} errorMessage={errorMessage} />
           ) : (
             checkoutToken && <Form />
           )}

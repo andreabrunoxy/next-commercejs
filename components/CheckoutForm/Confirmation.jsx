@@ -2,12 +2,26 @@ import React from 'react';
 import Link from 'next/link';
 import { Button, CircularProgress, Container, Divider, Typography } from '@mui/material';
 
-const Confirmation = ({ order }) => {
+const Confirmation = ({ order, errorMessage }) => {
   console.log(order);
+  if (errorMessage)
+    return (
+      <>
+        <Container>
+          <Typography variant="h6">{errorMessage}</Typography>
+        </Container>
+        <br />
+        <Link href={'/'} passHref>
+          <Button variant="outlined" type="button">
+            Back to Home
+          </Button>
+        </Link>
+      </>
+    );
 
   return (
     <>
-      {order.checkout_token_id && (
+      {order.customer && (
         <>
           <Container>
             <Typography variant="h6">
