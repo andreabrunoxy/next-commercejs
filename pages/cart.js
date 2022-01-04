@@ -11,7 +11,6 @@ import {
 import { useCartState, useCartDispatch } from '../context/cart';
 import CartItem from '../components/CartItem/CartItem';
 import { commerce } from '../lib/commerce';
-import { minHeight } from '@mui/system';
 
 const Cart = () => {
   const styles = {

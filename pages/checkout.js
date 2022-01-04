@@ -65,7 +65,7 @@ const Checkout = () => {
         console.log(token);
         setCheckoutToken(token);
       } catch (error) {
-        router.push('/');
+        console.log(error);
       }
     };
     generateToken();

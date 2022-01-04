@@ -46,6 +46,27 @@ export default function Home({ merchant, products }) {
   };
 
   const [searchValue, setSearchValue] = useState('');
+  const [queryProducts, setQueryProducts] = useState(products);
+
+  const searchProduct = async () => {
+    const { data: filteredProducts } = await commerce.products.list({
+      query: searchValue
+    });
+    setQueryProducts(filteredProducts);
+  };
+  console.log(queryProducts);
+
+  const allProducts = async () => {
+    const { data: products } = await commerce.products.list();
+    setQueryProducts(products);
+  };
+
+  useEffect(() => {
+    searchProduct();
+    if (searchValue == '') {
+      allProducts();
+    }
+  }, [searchValue]);
 
   return (
     <div sx={styles.container}>
@@ -71,12 +92,11 @@ export default function Home({ merchant, products }) {
               }
               label="Search product"
               onChange={e => setSearchValue(e.target.value)}
-              defaultValue={null}
             />
           </FormControl>
         </Box>
       </Container>
-      <Products products={products} searchValue={searchValue} />
+      <Products products={products} queryProducts={queryProducts} />
     </div>
   );
 }

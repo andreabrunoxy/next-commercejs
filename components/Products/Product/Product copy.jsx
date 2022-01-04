@@ -12,10 +12,11 @@ import { Div } from '../../styled';
 import { commerce } from '../../../lib/commerce';
 import { useCartDispatch } from '../../../context/cart';
 
-const Product = ({ queryProduct }) => {
+const Product = ({ product, queryProduct }) => {
   const { setCart } = useCartDispatch();
 
-  const addToCart = () =>
+  const addToCart = () => commerce.cart.add(product.id).then(({ cart }) => setCart(cart));
+  const addToCartQuery = () =>
     commerce.cart.add(queryProduct.id).then(({ cart }) => setCart(cart));
 
   const styles = {
@@ -29,6 +30,36 @@ const Product = ({ queryProduct }) => {
 
   return (
     <>
+      {!queryProduct && (
+        <Card sx={styles.card}>
+          <CardMedia
+            component="img"
+            image={product.image.url}
+            title={product.name}
+            height="300"
+            alt={product.name}
+          />
+          <CardContent>
+            <Div>
+              <Typography variant="h5" gutterBottom>
+                {product.name}
+              </Typography>
+              <Typography variant="h5" gutterBottom>
+                {product.price.formatted_with_symbol}
+              </Typography>
+            </Div>
+            <div
+              dangerouslySetInnerHTML={{ __html: product.description }}
+              style={{ color: 'gray' }}
+            />
+          </CardContent>
+          <CardActions sx={styles.action} disableSpacing>
+            <IconButton aria-label="Add to Cart" onClick={addToCart}>
+              <AddShoppingCart />
+            </IconButton>
+          </CardActions>
+        </Card>
+      )}
       {queryProduct && (
         <Card sx={styles.card}>
           <CardMedia
@@ -53,7 +84,7 @@ const Product = ({ queryProduct }) => {
             />
           </CardContent>
           <CardActions sx={styles.action} disableSpacing>
-            <IconButton aria-label="Add to Cart" onClick={addToCart}>
+            <IconButton aria-label="Add to Cart" onClick={addToCartQuery}>
               <AddShoppingCart />
             </IconButton>
           </CardActions>
